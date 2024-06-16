@@ -1,10 +1,15 @@
 
 
 
+#adding storage
 
 New-AzResourceGroupDeplyment 
     -Name addskuparameter
     -ResourceGroupName myResourceGroup
     -TemplateFile $templateFile
-    -storageName "{navn-på-storage}"
+    -storagePrefix "store"
     -storageSKU basic
+
+#adding new role definition
+
+New-AzRoleDefinition -InputFile $HOME/aztest-customRoleDefinition.json
