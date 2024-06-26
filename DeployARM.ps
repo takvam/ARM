@@ -1,5 +1,9 @@
 
 
+#connect
+Connect-AzAccount
+#in case several subs
+Set-AzContext [SubscriptionID/SubscriptionName]
 
 #adding storage
 
@@ -13,4 +17,17 @@ New-AzResourceGroupDeplyment
 #adding new role definition
 
 New-AzRoleDefinition -InputFile $HOME/aztest-customRoleDefinition.json
+
+#process to deploy template:
+#1. Add Resource group
+$projectName = Read-Host -Prompt "ARM_templates"
+$templateFile = Read-Host -Prompt "C:\Users\Alexa\OneDrive\Dokumenter\ARM-templates\ARM\azuredeploy.parameters.prod"
+$ResourceGroupName = "${projectName}rg"
+
+New-AzResourceGroupDeployment `
+    -Name DeployLocalTemplate `
+    -ResourceGroupName $ResourceGroupName `
+    -TemplateFile $TemplateFile  `
+    -projectName $projectName `
+    -verbose
 
