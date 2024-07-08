@@ -31,3 +31,17 @@ New-AzResourceGroupDeployment `
     -projectName $projectName `
     -verbose
 
+#What-if
+#The az deployment group what-if command gives you a preview of what will happen if you carry out a development
+#FullResourcePayloads gives a verbose output that consists of a list of resources that will change, the output also shows details about all the properties that will change in accordance with the template.
+
+New-AzResourceGroupDeployment 
+-ResourceGroupName ToyStorage 
+-TemplateFile $templateFileName 
+-WhatIf 
+-WhatIfResultFormat FullResourcePayloads
+
+#For ARM, download git clone https://github.com/Azure/arm-ttk.git, testing ARM-templates.
+# import-module C:\Users\Alexa\OneDrive\Dokumenter\ARM-templates\arm-ttk\arm-ttk sets up the test
+# Test-AzTemplate -TemplatePath . tests the template
+
