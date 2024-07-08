@@ -5,14 +5,19 @@ Connect-AzAccount
 #in case several subs
 Set-AzContext [SubscriptionID/SubscriptionName]
 
-#adding storage
+#To deploy to a resource group, use New-AzResourceGroupDeployment.
+#To deploy to a subscription, use New-AzSubscriptionDeployment.
+#To deploy to a management group, use New-AzManagementGroupDeployment.
+#To deploy to a tenant, use New-AzTenantDeployment.
 
-New-AzResourceGroupDeplyment 
-    -Name addskuparameter
-    -ResourceGroupName myResourceGroup
-    -TemplateFile $templateFile
-    -storagePrefix "store"
-    -storageSKU basic
+$templateFile="C:\JSON\maintemplate.json"
+$today=Get-Date -Format "MM-dd-yyyy"
+$DeploymentName="DeployLocalTemplate-"+"$today"
+
+New-AzResourceGroupDeployment 
+-Name $DeploymentName 
+-TemplateFile $templateFile
+-TemplateParameterObject $parameters
 
 #adding new role definition
 
@@ -40,6 +45,21 @@ New-AzResourceGroupDeployment
 -TemplateFile $templateFileName 
 -WhatIf 
 -WhatIfResultFormat FullResourcePayloads
+
+#depends On
+#Place the dependsOn construct on a resource that depends on other resources to be deployed first, ex:
+
+"resources": [
+  {
+    "name": "<name of resource that needs to exist first>"
+  },
+  {
+    "name": "someResource",
+    "dependsOn": [
+      "<name of resource that needs to exist first>"
+    ]
+  }
+]
 
 #For ARM, download git clone https://github.com/Azure/arm-ttk.git, testing ARM-templates.
 # import-module C:\Users\Alexa\OneDrive\Dokumenter\ARM-templates\arm-ttk\arm-ttk sets up the test
